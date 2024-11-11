@@ -20,7 +20,7 @@ namespace BlogPlatform.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetById(Guid id)
+        public IActionResult GetPostById(Guid id)
         {
             var post = _posts.FirstOrDefault(p => p.Id == id);
             if (post == null)
@@ -36,8 +36,14 @@ namespace BlogPlatform.Controllers
             return Ok(_posts);
         }
 
+        [HttpPut("{id}")]
+        public IActionResult UpdatePost([FromRoute] Guid id, [FromBody] UpdatePostRequest request)
+        {
+            return NoContent();
+        }
+
         [HttpDelete("{id}")]
-        public IActionResult Delete(Guid id)
+        public IActionResult DeletePost(Guid id)
         {
             var post = _posts.FirstOrDefault(p => p.Id == id);
             if (post == null)

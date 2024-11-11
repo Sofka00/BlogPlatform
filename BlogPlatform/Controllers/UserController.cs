@@ -9,12 +9,12 @@ namespace BlogPlatform.Controllers
     [Route("api/[controller]")]
     public class UsersController : ControllerBase
     {
-        private static List<UserResponse> _users = new List<UserResponse>();//списочек пользователей
+        private static List<UserResponse> _users = new List<UserResponse>();
 
         [HttpPost]
         public ActionResult<Guid> Register([FromBody] RegisterUserRequest request) 
         {
-            var addedUserId = Guid.NewGuid(); // новый ид
+            var addedUserId = Guid.NewGuid(); 
 
             var newUser = new UserResponse
             {
@@ -38,20 +38,20 @@ namespace BlogPlatform.Controllers
 
 
         [HttpGet("{id}")]
-        public IActionResult GetById(int id)
+        public IActionResult GeUserById(int id)
         {
             var user = new UserResponse();
             return Ok(user);
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public IActionResult GetAllUsers()
         {
             return Ok(_users);
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(Guid id)
+        public IActionResult DeleteUser(Guid id)
         {
             var user = _users.FirstOrDefault(u => u.Id == id);
             if (user == null)
