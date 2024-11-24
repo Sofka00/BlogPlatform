@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BlogPlatform.BLL;
+using BlogPlatform.BLL.Models;
 using BlogPlatform.Mapping;
 using BlogPlatform.Models.Request;
 using BlogPlatform.Models.Responses;
@@ -34,7 +35,28 @@ namespace BlogPlatform.Controllers
             var response = _mapper.Map<List<UserResponse>>(users);
 
             return Ok(response);    
-        } 
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<UserResponse>> GetUserById(Guid id)
+        {
+            var user = await _userService.GetUserById(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var response = _mapper.Map<UserResponse>(user);
+            return Ok(response);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<Guid>> AddUser(UserResponse userResponse)
+        {
+            var userModel = _mapper.Map<UserModel>(userResponse);
+            var userId = await _userService.AddUser(userModel);
+            return CreatedAtAction(nameof(GetUserById), new { id = userId }, userId);
+        }
 
 
 

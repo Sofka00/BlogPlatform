@@ -22,12 +22,12 @@ namespace BlogPlatform.BLL
             var config = new MapperConfiguration(
                 cfg =>
                 {
-                    cfg.AddProfile(new UserMappingProfile());
+                    cfg.AddProfile (new UserMappingProfile());
                 });
             _mapper = new Mapper(config);
         }
 
-        public async Task<Guid> AddUser(User user)
+        public async Task <Guid> AddUser (User user)
         {
             try
             {
@@ -52,7 +52,23 @@ namespace BlogPlatform.BLL
 
             return users;
         }
+        
+        public async Task<UserModel> GetUserById (Guid id)
+        {
+            var userDTO = await _userRepository.GetUserById(id);
+            return _mapper.Map<UserModel>(userDTO);
+        }
+        public async Task UpdateUser (UserModel userModel)
+        {
+            var userDTO = _mapper.Map<User>(userModel);
+            await _userRepository.UpdateUser(userDTO);
+        }
 
+        public async Task RemoveUser (Guid id)
+        {
+            await _userRepository.RemoveUser(id);
+        }
+
+    } 
     }
-}
 
