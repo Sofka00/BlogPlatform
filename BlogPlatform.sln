@@ -4,10 +4,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.10.35027.167
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlogPlatform", "BlogPlatform\BlogPlatform.csproj", "{DED91764-503C-430C-90D9-7A4E570E83EB}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1C9C5A0E-2659-4AD6-BBA7-6DA3CF090332} = {1C9C5A0E-2659-4AD6-BBA7-6DA3CF090332}
+		{DE953581-D04E-4F2E-9477-79C9825969F2} = {DE953581-D04E-4F2E-9477-79C9825969F2}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlogPlatform.BLL", "BlogPlatform.BLL\BlogPlatform.BLL.csproj", "{1C9C5A0E-2659-4AD6-BBA7-6DA3CF090332}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlogPlatform.Core", "BlogPlatform.DAL\BlogPlatform.Core.csproj", "{120B8295-75AB-4A8D-AB88-434C4FE37847}"
+	ProjectSection(ProjectDependencies) = postProject
+		{DE953581-D04E-4F2E-9477-79C9825969F2} = {DE953581-D04E-4F2E-9477-79C9825969F2}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlogPlatform.DAL", "BlogPlatform.DAL\BlogPlatform.DAL.csproj", "{DE953581-D04E-4F2E-9477-79C9825969F2}"
 EndProject
@@ -25,10 +30,6 @@ Global
 		{1C9C5A0E-2659-4AD6-BBA7-6DA3CF090332}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1C9C5A0E-2659-4AD6-BBA7-6DA3CF090332}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1C9C5A0E-2659-4AD6-BBA7-6DA3CF090332}.Release|Any CPU.Build.0 = Release|Any CPU
-		{120B8295-75AB-4A8D-AB88-434C4FE37847}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{120B8295-75AB-4A8D-AB88-434C4FE37847}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{120B8295-75AB-4A8D-AB88-434C4FE37847}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{120B8295-75AB-4A8D-AB88-434C4FE37847}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DE953581-D04E-4F2E-9477-79C9825969F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DE953581-D04E-4F2E-9477-79C9825969F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DE953581-D04E-4F2E-9477-79C9825969F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
