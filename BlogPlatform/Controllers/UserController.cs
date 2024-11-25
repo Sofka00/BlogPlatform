@@ -4,13 +4,18 @@ using BlogPlatform.BLL.Models;
 using BlogPlatform.Mapping;
 using BlogPlatform.Models.Request;
 using BlogPlatform.Models.Responses;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace BlogPlatform.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class UsersController : ControllerBase
     {
         //private static List<UserResponse> _users = new List<UserResponse>();
@@ -26,6 +31,7 @@ namespace BlogPlatform.Controllers
                     cfg.AddProfile(new APIUserMappingProfile());
                 }
                 );
+            _mapper = new Mapper( config );
         }
         [HttpGet]
         public async Task<ActionResult<List<UserResponse>>> GetUsers()
@@ -37,7 +43,7 @@ namespace BlogPlatform.Controllers
             return Ok(response);    
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}"), Authorize]
         public async Task<ActionResult<UserResponse>> GetUserById(Guid id)
         {
             var user = await _userService.GetUserById(id);
@@ -48,6 +54,21 @@ namespace BlogPlatform.Controllers
 
             var response = _mapper.Map<UserResponse>(user);
             return Ok(response);
+        }
+
+        [HttpGet("login")]
+        [AllowAnonymous]
+        public async Task<ActionResult<string>> GetLogin()
+        {
+            var claims = new List<Claim> { new Claim(ClaimTypes.Name,"Login") };
+            var jwt = new JwtSecurityToken(
+                    issuer: AuthOptions.ISSUER,
+                    audience: AuthOptions.AUDIENCE,
+                    claims: claims,
+                    expires: DateTime.UtcNow.Add(TimeSpan.FromMinutes(2)),
+                    signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
+
+            return Ok(new JwtSecurityTokenHandler().WriteToken(jwt));
         }
 
         [HttpPost]

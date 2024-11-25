@@ -27,7 +27,7 @@ namespace BlogPlatform.BLL
             _mapper = new Mapper(config);
         }
 
-        public async Task <Guid> AddUser (User user)
+        public async Task <Guid> AddUser (UserModel user)
         {
             try
             {
