@@ -1,4 +1,5 @@
 ﻿using BlogPlatform.DAL.DTOs;
+using BlogPlatform.DAL.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BlogPlatform.DAL.Repositorys
 {
-    public class UserRepository
+    public class UserRepository : IUserRepository
     {
         private Context _context;
 
@@ -17,7 +18,7 @@ namespace BlogPlatform.DAL.Repositorys
             _context = new Context();
         }
 
-        public async Task <User> CreateUser(User user)
+        public async Task<User> CreateUser(User user)
         {
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
@@ -33,37 +34,25 @@ namespace BlogPlatform.DAL.Repositorys
             return await _context.Users.ToListAsync();
         }
 
-        public async Task<User> UpdateUser(User user)
+        public async Task UpdateUser(User user, User userToUpdate)
         {
-            var userToUpdate = await GetUserById(user.Id);
+            //var userToUpdate = await GetUserById(user.Id);
 
-            userToUpdate.Username = user.Username;
+            userToUpdate.Login = user.Login;
             userToUpdate.Password = user.Password;
             userToUpdate.Email = user.Email;
             userToUpdate.FullName = user.FullName;
 
             await _context.SaveChangesAsync();
-
-            return userToUpdate; //(oshibka)
         }
 
-        public async Task <User> RemoveUser (Guid id)
+        public async Task RemoveUser(Guid id)
         {
             var userToDelete = await GetUserById(id);
             _context.Users.Remove(userToDelete);
             await _context.SaveChangesAsync();
 
-            return userToDelete;
         }
-        
-
-
-
-
-
-
-
-
     }
 }
 

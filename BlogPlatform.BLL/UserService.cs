@@ -8,13 +8,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BlogPlatform.BLL.Interfaces;
+using BlogPlatform.DAL.Interfaces;
 
 namespace BlogPlatform.BLL
 {
-    public class UserService
+    public class UserService : IUserService
     {
         private Mapper _mapper;
-        private UserRepository _userRepository;
+        private IUserRepository _userRepository;
+        //private UserRepository _userRepository;
 
         public UserService()
         {
@@ -22,12 +25,13 @@ namespace BlogPlatform.BLL
             var config = new MapperConfiguration(
                 cfg =>
                 {
-                    cfg.AddProfile (new UserMappingProfile());
+                    cfg.AddProfile(new UserMappingProfile());
                 });
             _mapper = new Mapper(config);
         }
 
-        public async Task <Guid> AddUser (UserModel user)
+
+        public async Task<Guid> AddUser(UserModel user)
         {
             try
             {
@@ -52,23 +56,23 @@ namespace BlogPlatform.BLL
 
             return users;
         }
-        
-        public async Task<UserModel> GetUserById (Guid id)
+
+        public async Task<UserModel> GetUserById(Guid id)
         {
             var userDTO = await _userRepository.GetUserById(id);
             return _mapper.Map<UserModel>(userDTO);
         }
-        public async Task UpdateUser (UserModel userModel)
-        {
-            var userDTO = _mapper.Map<User>(userModel);
-            await _userRepository.UpdateUser(userDTO);
-        }
+        //public async Task UpdateUser(UserModel userModel)
+        //{
+        //    var userDTO = _mapper.Map<User>(userModel);
+        //    await _userRepository.UpdateUser(userDTO, );
+        //}
 
-        public async Task RemoveUser (Guid id)
+        public async Task RemoveUser(Guid id)
         {
             await _userRepository.RemoveUser(id);
         }
 
-    } 
     }
+}
 
