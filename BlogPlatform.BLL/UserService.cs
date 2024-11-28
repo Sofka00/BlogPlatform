@@ -19,9 +19,9 @@ namespace BlogPlatform.BLL
         private IUserRepository _userRepository;
         //private UserRepository _userRepository;
 
-        public UserService()
+        public UserService(IUserRepository userRepository)
         {
-            _userRepository = new UserRepository();
+            _userRepository = userRepository;
             var config = new MapperConfiguration(
                 cfg =>
                 {

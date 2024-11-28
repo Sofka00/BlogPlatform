@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BlogPlatform.BLL;
+using BlogPlatform.BLL.Interfaces;
 using BlogPlatform.BLL.Models;
 using BlogPlatform.Mapping;
 using BlogPlatform.Models.Request;
@@ -20,11 +21,11 @@ namespace BlogPlatform.Controllers
     {
         //private static List<UserResponse> _users = new List<UserResponse>();
         private Mapper _mapper;
-        private UserService _userService;
+        private IUserService _userService;
 
-        public UsersController()
+        public UsersController(IUserService userService)
         {
-            _userService = new UserService();
+            _userService =userService;
             var config = new MapperConfiguration(
                 cfg =>
                 {

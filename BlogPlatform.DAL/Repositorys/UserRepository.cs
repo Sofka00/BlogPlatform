@@ -13,9 +13,9 @@ namespace BlogPlatform.DAL.Repositorys
     {
         private Context _context;
 
-        public UserRepository()
+        public UserRepository(Context context)
         {
-            _context = new Context();
+            _context = context;
         }
 
         public async Task<User> CreateUser(User user)

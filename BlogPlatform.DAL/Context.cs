@@ -11,6 +11,11 @@ namespace BlogPlatform.DAL
 {
     public class Context : DbContext
     {
+        public Context(DbContextOptions options) : base(options)
+        {
+            Database.EnsureCreated();   // создаем базу данных при первом обращении
+
+        }
 
         public DbSet<Comment> Comments { get; set; }
         public DbSet<User> Users { get; set; }

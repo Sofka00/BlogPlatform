@@ -12,9 +12,9 @@ namespace BlogPlatform.DAL.Repositorys
     public class PostRepository : IPostRepository
     {
         private Context _context;
-        public PostRepository()
+        public PostRepository(Context context)
         {
-            _context = new Context();
+            _context = context;
         }
 
         public async Task<Guid> AddPost(Post post)

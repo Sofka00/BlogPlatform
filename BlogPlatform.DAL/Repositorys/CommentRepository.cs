@@ -13,9 +13,10 @@ namespace BlogPlatform.DAL.Repositorys
     {
         private Context _context;
 
-        public CommentRepository()
+        public CommentRepository(Context context)
         {
-            _context = new Context();
+            _context = context;
+
         }
 
         public async Task<string> AddComment(Comment comment)
