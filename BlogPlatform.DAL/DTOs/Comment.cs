@@ -10,8 +10,10 @@ namespace BlogPlatform.DAL.DTOs
     {
         public Guid Id { get; set; }               
         public Guid PostId { get; set; }            
-        public string AuthorId { get; set; }       
-        public string Content { get; set; }         
+        public string UserId { get; set; }       
+        public string Content { get; set; }  
+        public Post Post { get; set; }
+        public User User { get; set; }
         public DateTime CreatedAt { get; set; }      
     }
 }

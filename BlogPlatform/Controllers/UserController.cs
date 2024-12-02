@@ -1,12 +1,9 @@
 ﻿using AutoMapper;
-using BlogPlatform.BLL;
 using BlogPlatform.BLL.Interfaces;
 using BlogPlatform.BLL.Models;
 using BlogPlatform.Mapping;
-using BlogPlatform.Models.Request;
 using BlogPlatform.Models.Responses;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -25,14 +22,14 @@ namespace BlogPlatform.Controllers
 
         public UsersController(IUserService userService)
         {
-            _userService =userService;
+            _userService = userService;
             var config = new MapperConfiguration(
                 cfg =>
                 {
                     cfg.AddProfile(new APIUserMappingProfile());
                 }
                 );
-            _mapper = new Mapper( config );
+            _mapper = new Mapper(config);
         }
         [HttpGet]
         public async Task<ActionResult<List<UserResponse>>> GetUsers()
@@ -41,7 +38,7 @@ namespace BlogPlatform.Controllers
 
             var response = _mapper.Map<List<UserResponse>>(users);
 
-            return Ok(response);    
+            return Ok(response);
         }
 
         [HttpGet("{id}"), Authorize]
@@ -61,7 +58,7 @@ namespace BlogPlatform.Controllers
         [AllowAnonymous]
         public async Task<ActionResult<string>> GetLogin()
         {
-            var claims = new List<Claim> { new Claim(ClaimTypes.Name,"Login") };
+            var claims = new List<Claim> { new Claim(ClaimTypes.Name, "Login") };
             var jwt = new JwtSecurityToken(
                     issuer: AuthOptions.ISSUER,
                     audience: AuthOptions.AUDIENCE,

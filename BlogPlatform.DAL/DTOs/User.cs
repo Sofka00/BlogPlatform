@@ -21,5 +21,7 @@ namespace BlogPlatform.DAL.DTOs
         public int FollowingCount { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
+        public ICollection<Post> Posts { get; set; }
+        public ICollection <Comment> Comment { get; set; }
     }
 }
