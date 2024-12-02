@@ -30,7 +30,7 @@ namespace BlogPlatform.DAL.Configuration
 
             builder.HasMany(p => p.Posts)
                 .WithOne(p => p.User)
-                .HasForeignKey(p => p.User.Id);
+                .HasForeignKey(p => p.AuthorId);
 
         }
     }

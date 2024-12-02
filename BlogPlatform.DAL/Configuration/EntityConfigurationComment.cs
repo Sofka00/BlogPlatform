@@ -21,7 +21,7 @@ namespace BlogPlatform.DAL.Configuration
                 .IsRequired();
 
             builder.Property(c => c.CreatedAt)
-                .HasDefaultValueSql("GETDATE()");
+                .HasDefaultValueSql("NOW()");
 
             builder.HasOne(c => c.Post)
                    .WithMany(p => p.Comment)

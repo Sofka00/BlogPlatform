@@ -24,11 +24,11 @@ namespace BlogPlatform.DAL.Configuration
                 .IsRequired();
 
             builder.Property(p => p.CreatedAt)
-                .HasDefaultValueSql("GETDATE()");
+                .HasDefaultValueSql("NOW()");
 
             builder.HasMany(c => c.Comment)
                 .WithOne(c => c.Post)
-                .HasForeignKey(c => c.Post.Id);
+                .HasForeignKey(c => c.PostId);
 
         }
     }

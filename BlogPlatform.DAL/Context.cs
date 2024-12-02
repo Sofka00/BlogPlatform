@@ -12,11 +12,6 @@ namespace BlogPlatform.DAL
 {
     public class Context : DbContext
     {
-        public Context(DbContextOptions options) : base(options)
-        {
-            Database.EnsureCreated();   // создаем базу данных при первом обращении
-
-        }
 
         public DbSet<Comment> Comments { get; set; }
         public DbSet<User> Users { get; set; }
@@ -27,6 +22,11 @@ namespace BlogPlatform.DAL
             modelBuilder.ApplyConfiguration(new EntityConfigurationUser());
             modelBuilder.ApplyConfiguration(new EntityConfigurationPost());
             modelBuilder.ApplyConfiguration(new EntityConfigurationComment());
+        }
+        public Context(DbContextOptions options) : base(options)
+        {
+            Database.EnsureCreated();   // создаем базу данных при первом обращении
+
         }
 
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
