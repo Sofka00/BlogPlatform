@@ -8,6 +8,7 @@ namespace BlogPlatform.DAL.Interfaces
         Task<List<User>> GetAllUsers();
         Task<User> GetUserById(Guid id);
         Task RemoveUser(Guid id);
-        Task UpdateUser(User user, User userToUpdate);
+        Task UpdateUser( User user);
+       
     }
 }

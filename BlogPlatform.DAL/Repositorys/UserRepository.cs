@@ -34,16 +34,11 @@ namespace BlogPlatform.DAL.Repositorys
             return await _context.Users.ToListAsync();
         }
 
-        public async Task UpdateUser(User user, User userToUpdate)
+        public async Task UpdateUser(User user)
         {
-            //var userToUpdate = await GetUserById(user.Id);
-
-            userToUpdate.Login = user.Login;
-            userToUpdate.Password = user.Password;
-            userToUpdate.Email = user.Email;
-            userToUpdate.FullName = user.FullName;
-
+            _context.Users.Update(user); 
             await _context.SaveChangesAsync();
+            
         }
 
         public async Task RemoveUser(Guid id)

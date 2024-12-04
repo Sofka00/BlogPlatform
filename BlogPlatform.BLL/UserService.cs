@@ -62,11 +62,24 @@ namespace BlogPlatform.BLL
             var userDTO = await _userRepository.GetUserById(id);
             return _mapper.Map<UserModel>(userDTO);
         }
-        //public async Task UpdateUser(UserModel userModel)
-        //{
-        //    var userDTO = _mapper.Map<User>(userModel);
-        //    await _userRepository.UpdateUser(userDTO, );
-        //}
+        public async Task UpdateUser( UserModel userModel)
+        {
+            var user = await _userRepository.GetUserById(userModel.Id);
+            _mapper.Map(userModel, user);
+
+
+            //var user = await _userRepository.GetUserById(userModel.Id);
+            //if (user != null)
+            //{
+            //    user.FullName = userModel.FullName;
+            //    user.Login = userModel.Login;
+            //    user.Email = userModel.Email;
+
+            //}
+            //    await _userRepository.UpdateUser( user); 
+            await _userRepository.UpdateUser(user); ;
+
+        }
 
         public async Task RemoveUser(Guid id)
         {

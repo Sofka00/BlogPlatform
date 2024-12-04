@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
+using BlogPlatform.BLL;
 using BlogPlatform.BLL.Interfaces;
 using BlogPlatform.BLL.Models;
 using BlogPlatform.Mapping;
+using BlogPlatform.Models.Request;
 using BlogPlatform.Models.Responses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,11 +14,11 @@ using System.Security.Claims;
 namespace BlogPlatform.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/user")]
     [Authorize]
     public class UsersController : ControllerBase
     {
-        //private static List<UserResponse> _users = new List<UserResponse>();
+        private static List<UserResponse> _users = new List<UserResponse>();
         private Mapper _mapper;
         private IUserService _userService;
 
@@ -78,60 +80,65 @@ namespace BlogPlatform.Controllers
         }
 
 
+        [HttpPost("register")]
+        [AllowAnonymous]
+        public ActionResult<Guid> Register([FromBody] RegisterUserRequest request)
+        {
+            var newUser = new UserModel
+            {
+                Id = Guid.NewGuid(),
+                FullName = request.Name,
+                Login = request.Login,
+                Email = request.Email,
+                Password = request.Password,
+                CreatedAt = DateTime.UtcNow
+            };
+
+            _userService.AddUser(newUser);
+            return newUser.Id;
+        }
+
+        [HttpPost("update")]
+        [AllowAnonymous]
+        public async Task<ActionResult<Guid>> Update([FromBody] UpdateUserRequest request)
+        {
+            var existingUser = await _userService.GetUserById(request.Id);
+            if (existingUser == null)
+            {
+                return NotFound("User not found.");
+            }
+
+            existingUser.FullName = request.FullName;
+            existingUser.Login = request.Login;
+            existingUser.Email = request.Email;
+            existingUser.Password = request.Password;
+               
+            await _userService.UpdateUser(existingUser);
+
+            return existingUser.Id;
+        }
 
 
 
-        //[HttpPost]
-        //public ActionResult<Guid> Register([FromBody] RegisterUserRequest request) 
-        //{
-        //    var addedUserId = Guid.NewGuid(); 
+        [HttpDelete("{id}")]
+        [AllowAnonymous]
+        public async Task <ActionResult> DeleteUser(Guid id)
+        {
+            var user = await _userService.GetUserById(id);
+            if (user == null)
+            {
+                return NotFound($"User with ID {id} not found."); 
+            }
 
-        //    var     [HttpGet]
-        //    {
-        //        Id = addedUserId,
-        //        Name = request.Name,
-        //        Email = request.Email
-        //    };
+            await _userService.RemoveUser(user.Id);
+            return NoContent(); ;
 
+        }
 
-        //    _users.Add(newUser);
-
-        //    return Ok(addedUserId); 
-        //}
-
-        //[HttpPost("login")]
-        //public IActionResult LogIn([FromBody] LoginRequest request)
-        //{
-        //    return Ok();
-        //}
-
-
-
-        //[HttpGet("{id}")]
-        //public IActionResult GeUserById(int id)
-        //{
-        //    var user = new UserResponse();
-        //    return Ok(user);
-        //}
-
-        //[HttpGet]
-        //public IActionResult GetAllUsers()
-        //{
-        //    return Ok(_users);
-        //}
-
-        //[HttpDelete("{id}")]
-        //public IActionResult DeleteUser(Guid id)
-        //{
-        //    var user = _users.FirstOrDefault(u => u.Id == id);
-        //    if (user == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    _users.Remove(user);
-        //    return NoContent();
-        //}
 
 
     }
 }
+
+
+
