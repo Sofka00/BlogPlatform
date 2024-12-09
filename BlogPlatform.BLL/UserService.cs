@@ -70,15 +70,18 @@ namespace BlogPlatform.BLL
         }
 
 
-        public Task<UserModel> ValidateUser(string login, string password)
-        {
-            throw new NotImplementedException();
-        }
+ 
 
         public async Task<UserModel> GetUserByName(string name)
         {
             var userDTO = await _userRepository.GetUserByUsername(name);
             return _mapper.Map<UserModel>(userDTO);
+        }
+
+        
+        public async Task<bool> ValidateUser(string role)
+        {
+            return role == "Admin";
         }
     }
 }

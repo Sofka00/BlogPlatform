@@ -75,5 +75,10 @@ namespace BlogPlatform.BLL
             await _postRepository.UpdatePost(post); ;
 
         }
+
+        public async Task<bool> AccessUserToUpdate (PostModel post, string UserId)
+        {
+            return UserId ==post.AuthorId;
+        }
     }
 }

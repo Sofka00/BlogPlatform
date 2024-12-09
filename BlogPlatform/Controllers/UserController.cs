@@ -72,7 +72,7 @@ namespace BlogPlatform.Controllers
                 Login = request.Login,
                 Email = request.Email,
                 Password = request.Password,
-                Role = request.Role,
+                Role = "User",
                 CreatedAt = DateTime.UtcNow
             };
 
@@ -85,6 +85,13 @@ namespace BlogPlatform.Controllers
         public async Task<ActionResult<Guid>> Update([FromBody] UpdateUserRequest request)
         {
             var existingUser = await _userService.GetUserById(request.Id);
+            var userRole = this.User.Claims.First(i => i.Type == "UserRole").Value;
+            var UserId = this.User.Claims.First(i => i.Type == "UserId").Value;
+            if (!_userService.ValidateUser(userRole).Result && request.Id.ToString() ==UserId)
+            {
+                return BadRequest($"no access to role {userRole}");
+            }
+            
             if (existingUser == null)
             {
                 return NotFound("User not found.");

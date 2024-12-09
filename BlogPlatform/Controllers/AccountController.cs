@@ -66,7 +66,7 @@ namespace BlogPlatform.Controllers
                 var claims = new List<Claim>
                 {
                     new Claim("UserId", user.Id.ToString()),
-                    new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role)
+                    new Claim("UserRole", user.Role)
                 };
                 ClaimsIdentity claimsIdentity =
                 new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType,

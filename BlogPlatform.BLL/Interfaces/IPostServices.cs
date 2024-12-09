@@ -9,5 +9,7 @@ namespace BlogPlatform.BLL.Interfaces
         Task<PostModel> GetPostById(Guid id);
         Task RemovePost (Guid id);
         Task UpdatePost(PostModel postModel);
+        Task<bool> AccessUserToUpdate(PostModel post, string UserId);
+
     }
 }

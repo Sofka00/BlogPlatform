@@ -38,7 +38,7 @@ namespace BlogPlatform.Controllers
         public ActionResult<Guid> AddPost([FromBody] PostRequest request)
         {
 
-           var x= this.User.Claims.First(i => i.Type == "UserId").Value;
+           var UserId= this.User.Claims.First(i => i.Type == "UserId").Value;
 
             var newPost = new PostModel
             {
@@ -46,7 +46,7 @@ namespace BlogPlatform.Controllers
                 Title= request.Title,
                 Content = request.Content,
                 CreatedAt = DateTime.UtcNow,
-                AuthorId= x,
+                AuthorId= UserId,
             };
 
             _postService.AddPost(newPost);
@@ -77,12 +77,6 @@ namespace BlogPlatform.Controllers
         }
 
 
-        [HttpPut("{id}")]
-        public IActionResult UpdatePost([FromRoute] Guid id, [FromBody] UpdatePostRequest request)
-        {
-            return NoContent();
-        }
-
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeletePost(Guid id)
         {
@@ -99,7 +93,12 @@ namespace BlogPlatform.Controllers
         [AllowAnonymous]
         public async Task<ActionResult<Guid>> Update([FromBody] UpdatePostRequest request)
         {
+            var UserId = this.User.Claims.First(i => i.Type == "UserId").Value;
             var existingPost = await _postService.GetPostById(request.Id);
+            if (_postService.AccessUserToUpdate(existingPost, UserId).Result)
+            {
+                return BadRequest("Not acceess to user");
+            }
             if (existingPost == null)
             {
                 return NotFound("User not found.");
@@ -112,6 +111,7 @@ namespace BlogPlatform.Controllers
 
             return existingPost.Id;
         }
+
     }
 }
 
