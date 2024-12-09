@@ -25,7 +25,7 @@ namespace BlogPlatform.DAL
         }
         public Context(DbContextOptions options) : base(options)
         {
-            Database.EnsureCreated();   // создаем базу данных при первом обращении
+           // Database.EnsureCreated();   // создаем базу данных при первом обращении
 
         }
 

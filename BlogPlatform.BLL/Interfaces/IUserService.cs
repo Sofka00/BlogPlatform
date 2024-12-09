@@ -1,4 +1,5 @@
 ﻿using BlogPlatform.BLL.Models;
+using System;
 
 namespace BlogPlatform.BLL.Interfaces
 {
@@ -9,5 +10,8 @@ namespace BlogPlatform.BLL.Interfaces
         Task<UserModel> GetUserById(Guid id);
         Task RemoveUser(Guid id);
         Task UpdateUser(UserModel userModel);
+        Task<UserModel> ValidateUser(string login, string password);
+        Task<UserModel> GetUserByName(string name);
+
     }
-}
+}   

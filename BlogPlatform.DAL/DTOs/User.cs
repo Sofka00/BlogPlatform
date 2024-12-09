@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -23,5 +24,6 @@ namespace BlogPlatform.DAL.DTOs
         public DateTime UpdatedAt { get; set; }
         public ICollection<Post> Posts { get; set; }
         public ICollection <Comment> Comment { get; set; }
+        public string Role { get; set; }
     }
 }

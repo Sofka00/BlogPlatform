@@ -1,14 +1,8 @@
 ﻿using AutoMapper;
-using BlogPlatform.BLL.Mappings;
-using BlogPlatform.DAL.Repositorys;
-using BlogPlatform.DAL.DTOs;
-using BlogPlatform.BLL.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BlogPlatform.BLL.Interfaces;
+using BlogPlatform.BLL.Mappings;
+using BlogPlatform.BLL.Models;
+using BlogPlatform.DAL.DTOs;
 using BlogPlatform.DAL.Interfaces;
 
 namespace BlogPlatform.BLL
@@ -62,21 +56,10 @@ namespace BlogPlatform.BLL
             var userDTO = await _userRepository.GetUserById(id);
             return _mapper.Map<UserModel>(userDTO);
         }
-        public async Task UpdateUser( UserModel userModel)
+        public async Task UpdateUser(UserModel userModel)
         {
             var user = await _userRepository.GetUserById(userModel.Id);
             _mapper.Map(userModel, user);
-
-
-            //var user = await _userRepository.GetUserById(userModel.Id);
-            //if (user != null)
-            //{
-            //    user.FullName = userModel.FullName;
-            //    user.Login = userModel.Login;
-            //    user.Email = userModel.Email;
-
-            //}
-            //    await _userRepository.UpdateUser( user); 
             await _userRepository.UpdateUser(user); ;
 
         }
@@ -86,6 +69,17 @@ namespace BlogPlatform.BLL
             await _userRepository.RemoveUser(id);
         }
 
+
+        public Task<UserModel> ValidateUser(string login, string password)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<UserModel> GetUserByName(string name)
+        {
+            var userDTO = await _userRepository.GetUserByUsername(name);
+            return _mapper.Map<UserModel>(userDTO);
+        }
     }
 }
 

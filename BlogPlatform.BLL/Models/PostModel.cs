@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BlogPlatform.BLL.Interfaces;
 
 namespace BlogPlatform.BLL.Models
 {
-    public class PostModel
+    public class PostModel 
     {
         public Guid Id { get; set; }
         public string Title { get; set; }

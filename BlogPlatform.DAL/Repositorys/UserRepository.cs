@@ -21,7 +21,7 @@ namespace BlogPlatform.DAL.Repositorys
         public async Task<User> CreateUser(User user)
         {
             _context.Users.Add(user);
-            await _context.SaveChangesAsync();
+             _context.SaveChanges();
             return user;
         }
         public async Task<User> GetUserById(Guid id)
@@ -47,6 +47,11 @@ namespace BlogPlatform.DAL.Repositorys
             _context.Users.Remove(userToDelete);
             await _context.SaveChangesAsync();
 
+        }
+
+        public async Task<User> GetUserByUsername(string username)
+        {
+            return await _context.Users.SingleOrDefaultAsync(u => u.Login == username);
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using BlogPlatform.BLL;
 using BlogPlatform.BLL.Interfaces;
 using BlogPlatform.BLL.Models;
 using BlogPlatform.Mapping;
@@ -7,9 +6,6 @@ using BlogPlatform.Models.Request;
 using BlogPlatform.Models.Responses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 
 namespace BlogPlatform.Controllers
 {
@@ -56,21 +52,6 @@ namespace BlogPlatform.Controllers
             return Ok(response);
         }
 
-        [HttpGet("login")]
-        [AllowAnonymous]
-        public async Task<ActionResult<string>> GetLogin()
-        {
-            var claims = new List<Claim> { new Claim(ClaimTypes.Name, "Login") };
-            var jwt = new JwtSecurityToken(
-                    issuer: AuthOptions.ISSUER,
-                    audience: AuthOptions.AUDIENCE,
-                    claims: claims,
-                    expires: DateTime.UtcNow.Add(TimeSpan.FromMinutes(2)),
-                    signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
-
-            return Ok(new JwtSecurityTokenHandler().WriteToken(jwt));
-        }
-
         [HttpPost]
         public async Task<ActionResult<Guid>> AddUser(UserResponse userResponse)
         {
@@ -91,6 +72,7 @@ namespace BlogPlatform.Controllers
                 Login = request.Login,
                 Email = request.Email,
                 Password = request.Password,
+                Role = request.Role,
                 CreatedAt = DateTime.UtcNow
             };
 
@@ -112,31 +94,26 @@ namespace BlogPlatform.Controllers
             existingUser.Login = request.Login;
             existingUser.Email = request.Email;
             existingUser.Password = request.Password;
-               
+
             await _userService.UpdateUser(existingUser);
 
             return existingUser.Id;
         }
 
-
-
         [HttpDelete("{id}")]
         [AllowAnonymous]
-        public async Task <ActionResult> DeleteUser(Guid id)
+        public async Task<ActionResult> DeleteUser(Guid id)
         {
             var user = await _userService.GetUserById(id);
             if (user == null)
             {
-                return NotFound($"User with ID {id} not found."); 
+                return NotFound($"User with ID {id} not found.");
             }
 
             await _userService.RemoveUser(user.Id);
             return NoContent(); ;
 
         }
-
-
-
     }
 }
 

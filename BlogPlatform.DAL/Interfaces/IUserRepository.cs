@@ -9,6 +9,7 @@ namespace BlogPlatform.DAL.Interfaces
         Task<User> GetUserById(Guid id);
         Task RemoveUser(Guid id);
         Task UpdateUser( User user);
-       
+        Task<User> GetUserByUsername(string username);
+
     }
 }

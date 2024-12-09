@@ -20,7 +20,7 @@ namespace BlogPlatform.DAL.Repositorys
         public async Task<Guid> AddPost(Post post)
         {
             _context.Posts.Add(post);
-            await _context.SaveChangesAsync();
+           _context.SaveChanges();
             return post.Id;
         }
 
