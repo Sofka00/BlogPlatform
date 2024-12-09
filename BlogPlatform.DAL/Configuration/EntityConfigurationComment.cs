@@ -13,7 +13,6 @@ namespace BlogPlatform.DAL.Configuration
     {
         public void Configure(EntityTypeBuilder<Comment> builder)
         {
-            // Настройка таблицы Comments
             builder.ToTable("Comments")
                 .HasKey(e => e.Id);
 
